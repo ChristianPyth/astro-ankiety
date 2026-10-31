@@ -74,6 +74,12 @@ h1 { font-family: var(--display); font-weight: 600; font-size: clamp(34px, 6vw, 
 .fill:hover { filter: brightness(.97); }
 .noform { margin-top: 10px; background: var(--ok-soft); color: var(--ok); border-radius: 8px; padding: 8px 12px; font-size: 13.5px; }
 .noform strong { display: block; }
+.houses-h { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 14px 0 6px; }
+.houses { list-style: none; counter-reset: house; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.houses li { counter-increment: house; position: relative; background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px 8px 40px; font-size: 13.5px; min-width: 0; }
+.houses li::before { content: counter(house); position: absolute; left: 10px; top: 8px; font-family: var(--display); font-weight: 700; font-size: 20px; line-height: 1; color: var(--gold); }
+.houses b { display: block; font-weight: 600; }
+.houses i { display: block; color: var(--ink-soft); margin-top: 2px; }
 
 .howto { margin-top: 28px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 16px 18px; }
 .howto h2 { font-family: var(--display); font-size: 26px; margin: 0 0 6px; }
@@ -149,15 +155,29 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
 
   <div class="map" id="map">
 
-    <section class="branch" data-keys="pytanie konkretne teraz czy kiedy gdzie praca sprzedam mieszkanie wróci egzamin decyzja question specific now will when where job sell house come back exam decision horar horary">
-      <div class="need"><span class="pl">Mam jedno konkretne pytanie, ważne teraz</span><span class="en">I have one specific question that matters now</span></div>
+    <section class="branch" data-keys="pytanie konkretne teraz czy kiedy gdzie praca sprzedam mieszkanie wróci egzamin decyzja zguba zgubiłem zginęło kradzież ukradli gdzie jest on ona związek zgodzi ciąża kredyt spadek wyjazd przyjaciel wróg question specific now will when where job sell house come back exam decision lost missing stolen theft where is he she agree pregnant loan inheritance travel friend enemy horar horary">
+      <div class="need"><span class="pl">Mam jedno konkretne pytanie, ważne teraz</span><span class="en">I have one specific question that matters now</span><small class="pl">o pracę, związek, pieniądze, zgubę, zdrowie — o każdą konkretną sprawę</small><small class="en">about work, a relationship, money, a lost item, health — any specific matter</small></div>
       <div class="arrow" aria-hidden="true"></div>
       <div class="services">
         <article class="svc">
           <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — pytanie horarne</span><span class="en">Horary question</span></h3></div>
-          <p><span class="pl">Odpowiedź na jedną sprawę: czy, kiedy, gdzie, kto.</span><span class="en">An answer about one matter: whether, when, where, who.</span></p>
-          <ul class="ex"><li class="pl">„Czy dostanę tę pracę?”</li><li class="pl">„Czy sprzedam mieszkanie do końca roku?”</li><li class="pl">„Czy zdam egzamin?”</li><li class="en">“Will I get this job?”</li><li class="en">“Will I sell the flat by the end of the year?”</li><li class="en">“Will I pass the exam?”</li></ul>
-          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Horoskop stawiam na chwilę, w której przeczytam i zrozumiem Twoje pytanie. Napisz je w prywatnej wiadomości na Discordzie (tam, skąd masz ten link), najlepiej wtedy, gdy sprawa jest gorąca: jedno zdanie pytania i kilka zdań tła. Nie poprawiaj pytania w kolejnych wiadomościach.</span><span class="en">I cast the chart for the moment I read and understand your question. Send it in a private message on Discord (where you got this link), ideally while the matter is live: one sentence for the question and a few sentences of background. Don't rephrase it in later messages.</span></div>
+          <p><span class="pl">Odpowiedź na jedną sprawę: czy, kiedy, gdzie, kto. Horoskop stawiam na chwilę, w której przeczytam i zrozumiem Twoje pytanie.</span><span class="en">An answer about one matter: whether, when, where, who. I cast the chart for the moment I read and understand your question.</span></p>
+          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Prywatna wiadomość na Discordzie (tam, skąd masz ten link), najlepiej wtedy, gdy sprawa jest gorąca: jedno zdanie pytania i kilka zdań tła. Nie poprawiaj pytania w kolejnych wiadomościach. Przy zgubie dopisz, co zginęło, kiedy i gdzie widziałeś/aś to ostatni raz.</span><span class="en">A private message on Discord (where you got this link), ideally while the matter is live: one sentence for the question and a few sentences of background. Don't rephrase it in later messages. For a lost item, add what is missing and when and where you last saw it.</span></div>
+          <h4 class="houses-h"><span class="pl">O co można zapytać — dwanaście domów horoskopu</span><span class="en">What you can ask about — the twelve houses</span></h4>
+          <ol class="houses">
+            <li><b><span class="pl">Ty</span><span class="en">You</span></b><span class="pl">Twoja sytuacja, samopoczucie, plany</span><span class="en">your situation, wellbeing, plans</span><i class="pl">„Czy ta zmiana wyjdzie mi na dobre?”</i><i class="en">“Will this change be good for me?”</i></li>
+            <li><b><span class="pl">Pieniądze</span><span class="en">Money</span></b><span class="pl">zarobki, oszczędności, Twoje rzeczy, zguby</span><span class="en">earnings, savings, your belongings, lost items</span><i class="pl">„Gdzie jest mój portfel?”</i><i class="en">“Where is my wallet?”</i></li>
+            <li><b><span class="pl">Rodzeństwo i okolica</span><span class="en">Siblings and neighbours</span></b><span class="pl">rodzeństwo, sąsiedzi, krótkie wyjazdy, wiadomości, plotki</span><span class="en">siblings, neighbours, short trips, messages, rumours</span><i class="pl">„Czy dostanę odpowiedź?”</i><i class="en">“Will I get a reply?”</i></li>
+            <li><b><span class="pl">Dom i rodzice</span><span class="en">Home and parents</span></b><span class="pl">mieszkanie, dom, działka, kupno i sprzedaż, ojciec</span><span class="en">flat, house, land, buying and selling, father</span><i class="pl">„Czy kupię to mieszkanie?”</i><i class="en">“Will I buy this flat?”</i></li>
+            <li><b><span class="pl">Dzieci i przyjemności</span><span class="en">Children and pleasure</span></b><span class="pl">dzieci, ciąża, randki, rozrywka</span><span class="en">children, pregnancy, dating, fun</span><i class="pl">„Czy jestem w ciąży?”</i><i class="en">“Am I pregnant?”</i></li>
+            <li><b><span class="pl">Zdrowie i codzienna praca</span><span class="en">Health and daily work</span></b><span class="pl">choroba, leczenie, praca u kogoś, zwierzęta domowe</span><span class="en">illness, treatment, working for others, pets</span><i class="pl">„Czy znajdzie się mój kot?”</i><i class="en">“Will my cat be found?”</i></li>
+            <li><b><span class="pl">Partner i druga strona</span><span class="en">Partner and the other side</span></b><span class="pl">związek, małżeństwo, wspólnik, przeciwnik, spór, kupujący, złodziej</span><span class="en">relationship, marriage, business partner, opponent, dispute, buyer, thief</span><i class="pl">„Czy on wróci?”</i><i class="en">“Will he come back?”</i></li>
+            <li><b><span class="pl">Cudze pieniądze</span><span class="en">Other people's money</span></b><span class="pl">kredyt, długi, spadek, pieniądze partnera, ubezpieczenie</span><span class="en">loans, debts, inheritance, a partner's money, insurance</span><i class="pl">„Czy dostanę ten kredyt?”</i><i class="en">“Will I get this loan?”</i></li>
+            <li><b><span class="pl">Daleko</span><span class="en">Far away</span></b><span class="pl">wyjazd za granicę, studia, egzaminy, wiara</span><span class="en">going abroad, studies, exams, faith</span><i class="pl">„Czy zdam egzamin?”</i><i class="en">“Will I pass the exam?”</i></li>
+            <li><b><span class="pl">Praca i pozycja</span><span class="en">Career and standing</span></b><span class="pl">praca, awans, przełożeni, urzędy, opinia o Tobie, matka</span><span class="en">job, promotion, bosses, offices, reputation, mother</span><i class="pl">„Czy dostanę tę pracę?”</i><i class="en">“Will I get this job?”</i></li>
+            <li><b><span class="pl">Przyjaciele i nadzieje</span><span class="en">Friends and hopes</span></b><span class="pl">przyjaciele, pomoc znajomych, to, na co liczysz</span><span class="en">friends, help from acquaintances, what you hope for</span><i class="pl">„Czy znajomy mi pomoże?”</i><i class="en">“Will my friend help me?”</i></li>
+            <li><b><span class="pl">Ukryte sprawy</span><span class="en">Hidden matters</span></b><span class="pl">ukryci przeciwnicy, kłopoty, których nie widać, szpital</span><span class="en">hidden opponents, unseen troubles, hospital</span><i class="pl">„Czy ktoś działa za moimi plecami?”</i><i class="en">“Is someone working against me?”</i></li>
+          </ol>
         </article>
       </div>
     </section>
@@ -238,11 +258,7 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
           <p><span class="pl">Jak pasujecie na dłuższą metę: gdzie się wspieracie, o co się kłócicie, jak układają się wspólne lata. Para, wspólnicy, rodzic i dziecko.</span><span class="en">How you fit in the long run: where you support each other, what you fight about, how your years together unfold. Couples, business partners, parent and child.</span></p>
           <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">dane urodzenia obu osób (najlepiej z godzinami) i zgoda drugiej osoby.</span><span class="en">both people's birth data (ideally with times) and the other person's consent.</span></p>
           <button type="button" class="fill" data-form="pair"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
-        </article>
-        <article class="svc">
-          <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — jedno konkretne pytanie</span><span class="en">Horary — one specific question</span></h3></div>
-          <ul class="ex"><li class="pl">„Czy on wróci?”</li><li class="pl">„Czy będziemy razem?”</li><li class="pl">„Czy ona się zgodzi?”</li><li class="en">“Will he come back?”</li><li class="en">“Will we be together?”</li><li class="en">“Will she agree?”</li></ul>
-          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Prywatna wiadomość na Discordzie, wtedy gdy sprawa jest gorąca.</span><span class="en">A private message on Discord, while the matter is live.</span></div>
+          <p class="see"><span class="pl">Jedno konkretne pytanie o tę osobę („czy wróci?”, „czy się zgodzi?”) → pytanie horarne na górze strony.</span><span class="en">One specific question about this person (“will he come back?”, “will she agree?”) → horary question at the top of the page.</span></p>
         </article>
       </div>
     </section>
@@ -274,17 +290,6 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
       </div>
     </section>
 
-    <section class="branch" data-keys="zguba zgubiłem zginęło kradzież ukradli gdzie jest lost missing stolen theft where is">
-      <div class="need"><span class="pl">Coś zginęło albo zostało skradzione</span><span class="en">Something is lost or stolen</span></div>
-      <div class="arrow" aria-hidden="true"></div>
-      <div class="services">
-        <article class="svc">
-          <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — pytanie o zgubę</span><span class="en">Horary — lost object</span></h3></div>
-          <p><span class="pl">Czy się znajdzie, gdzie szukać, kto ma z tym związek.</span><span class="en">Will it be found, where to look, who is connected with it.</span></p>
-          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Na Discordzie: co zginęło, kiedy i gdzie widziałeś/aś to ostatni raz.</span><span class="en">On Discord: what is missing, when and where you last saw it.</span></div>
-        </article>
-      </div>
-    </section>
   </div>
 
   <section class="howto" aria-labelledby="howto-h">
