@@ -75,9 +75,9 @@ h1 { font-family: var(--display); font-weight: 600; font-size: clamp(34px, 6vw, 
 .noform { margin-top: 10px; background: var(--ok-soft); color: var(--ok); border-radius: 8px; padding: 8px 12px; font-size: 13.5px; }
 .noform strong { display: block; }
 .houses-h { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 14px 0 6px; }
-.houses { list-style: none; counter-reset: house; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
-.houses li { counter-increment: house; position: relative; background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px 8px 40px; font-size: 13.5px; min-width: 0; }
-.houses li::before { content: counter(house); position: absolute; left: 10px; top: 8px; font-family: var(--display); font-weight: 700; font-size: 20px; line-height: 1; color: var(--gold); }
+.houses-note { margin: 0 0 8px; font-size: 13.5px; }
+.houses { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.houses li { background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; padding: 8px 10px; font-size: 13.5px; min-width: 0; }
 .houses b { display: block; font-weight: 600; }
 .houses i { display: block; color: var(--ink-soft); margin-top: 2px; }
 
@@ -163,7 +163,8 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
           <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — pytanie horarne</span><span class="en">Horary question</span></h3></div>
           <p><span class="pl">Odpowiedź na jedną sprawę: czy, kiedy, gdzie, kto. Horoskop stawiam na chwilę, w której przeczytam i zrozumiem Twoje pytanie.</span><span class="en">An answer about one matter: whether, when, where, who. I cast the chart for the moment I read and understand your question.</span></p>
           <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Prywatna wiadomość na Discordzie (tam, skąd masz ten link), najlepiej wtedy, gdy sprawa jest gorąca: jedno zdanie pytania i kilka zdań tła. Nie poprawiaj pytania w kolejnych wiadomościach. Przy zgubie dopisz, co zginęło, kiedy i gdzie widziałeś/aś to ostatni raz.</span><span class="en">A private message on Discord (where you got this link), ideally while the matter is live: one sentence for the question and a few sentences of background. Don't rephrase it in later messages. For a lost item, add what is missing and when and where you last saw it.</span></div>
-          <h4 class="houses-h"><span class="pl">O co można zapytać — dwanaście domów horoskopu</span><span class="en">What you can ask about — the twelve houses</span></h4>
+          <h4 class="houses-h"><span class="pl">O co można zapytać</span><span class="en">What you can ask about</span></h4>
+          <p class="houses-note"><span class="pl">W praktyce możesz zapytać o wszystko, jeśli pytanie jest jasne i konkretne. Jeśli nie wiesz, jak je dobrze ułożyć, napisz do mnie na Discordzie — pomogę. Kilka przykładów:</span><span class="en">In practice you can ask about anything, as long as the question is clear and specific. If you're not sure how to phrase it, write to me on Discord — I'll help. A few examples:</span></p>
           <ol class="houses">
             <li><b><span class="pl">Ty</span><span class="en">You</span></b><span class="pl">Twoja sytuacja, samopoczucie, plany</span><span class="en">your situation, wellbeing, plans</span><i class="pl">„Czy ta zmiana wyjdzie mi na dobre?”</i><i class="en">“Will this change be good for me?”</i></li>
             <li><b><span class="pl">Pieniądze</span><span class="en">Money</span></b><span class="pl">zarobki, oszczędności, Twoje rzeczy, zguby</span><span class="en">earnings, savings, your belongings, lost items</span><i class="pl">„Gdzie jest mój portfel?”</i><i class="en">“Where is my wallet?”</i></li>
@@ -178,6 +179,7 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
             <li><b><span class="pl">Przyjaciele i nadzieje</span><span class="en">Friends and hopes</span></b><span class="pl">przyjaciele, pomoc znajomych, to, na co liczysz</span><span class="en">friends, help from acquaintances, what you hope for</span><i class="pl">„Czy znajomy mi pomoże?”</i><i class="en">“Will my friend help me?”</i></li>
             <li><b><span class="pl">Ukryte sprawy</span><span class="en">Hidden matters</span></b><span class="pl">ukryci przeciwnicy, kłopoty, których nie widać, szpital</span><span class="en">hidden opponents, unseen troubles, hospital</span><i class="pl">„Czy ktoś działa za moimi plecami?”</i><i class="en">“Is someone working against me?”</i></li>
           </ol>
+          <p class="see"><span class="pl">Twojej sprawy nie ma na liście? Zapytaj i tak — to tylko przykłady.</span><span class="en">Your matter isn't listed? Ask anyway — these are only examples.</span></p>
         </article>
       </div>
     </section>
