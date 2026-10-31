@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Astrologia tradycyjna — którą astrologię wybrać?</title>
+<meta name="description" content="Wybierz rodzaj horoskopu do swojej sprawy i wypełnij ankietę. Choose the right kind of traditional astrology and fill in the form.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&text=%E2%98%89%E2%98%BD%E2%98%BF%E2%99%80%E2%99%82%E2%99%83%E2%99%84&display=swap">
+<style>
+/* Layout: one trunk from the question; each branch runs from "your situation" to the service(s); each service opens its form in a dialog. */
+:root {
+  --paper: #f2f3f7; --sheet: #ffffff; --ink: #1b2140; --ink-soft: #4a5070; --rule: #c9cdde;
+  --gold: #9a6a12; --gold-soft: #f3e7cf; --ok: #2f5130; --ok-soft: #e3eadf; --warn: #9b2c1f; --warn-soft: #f8e4df;
+  --focus: #3552c8; --discord: #5865f2;
+  --display: "Cormorant Garamond", "Garamond", "Georgia", serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --glyph: "Noto Sans Symbols", "Segoe UI Symbol", "DejaVu Sans", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #12162a; --sheet: #1a2038; --ink: #e6e8f2; --ink-soft: #a9aec8; --rule: #343b5c;
+    --gold: #d9a645; --gold-soft: #3a3220; --ok: #b9dcb9; --ok-soft: #23362a; --warn: #f1a493; --warn-soft: #3d2420;
+    --focus: #8fa4ff; --discord: #8a94ff; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 28px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:root:not([data-lang="en"]) .en { display: none !important; }
+:root[data-lang="en"] .pl { display: none !important; }
+
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.lang { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; overflow: hidden; }
+.lang button { font: 600 13px var(--body); padding: 6px 14px; border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(34px, 6vw, 54px); line-height: 1.05; margin: 18px 0 8px; text-wrap: balance; }
+.lede { max-width: 64ch; color: var(--ink-soft); margin: 0 0 20px; }
+.root { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 16px 18px; }
+.root-q { font-family: var(--display); font-size: 24px; font-weight: 700; margin: 0; }
+.search { flex: 1 1 260px; min-width: 0; }
+.search label { font-size: 13px; }
+.search input { width: 100%; font: 15px var(--body); padding: 10px 12px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); color: var(--ink); }
+.search-note { font-size: 12px; color: var(--ink-soft); margin-top: 4px; min-height: 1.2em; }
+
+.map { position: relative; margin-top: 18px; padding-left: 22px; display: grid; gap: 14px; }
+.map::before { content: ""; position: absolute; left: 6px; top: 0; bottom: 18px; width: 2px; background: var(--rule); }
+.branch { position: relative; display: grid; grid-template-columns: minmax(0, .8fr) 28px minmax(0, 2fr); align-items: start; transition: opacity .2s; }
+.branch::before { content: ""; position: absolute; left: -16px; top: 22px; width: 16px; height: 2px; background: var(--rule); }
+.branch.dim { opacity: .28; }
+.need { background: var(--ink); color: var(--paper); border-radius: 12px; padding: 12px 14px; font-weight: 600; min-width: 0; }
+.need small { display: block; font-weight: 400; opacity: .8; margin-top: 4px; font-size: 13px; }
+.arrow { align-self: stretch; position: relative; }
+.arrow::before { content: ""; position: absolute; left: 4px; right: 6px; top: 22px; height: 2px; background: var(--gold); }
+.arrow::after { content: ""; position: absolute; right: 2px; top: 18px; border: 5px solid transparent; border-left: 7px solid var(--gold); }
+.services { display: grid; gap: 10px; min-width: 0; }
+.svc { background: var(--sheet); border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; min-width: 0; }
+.svc-head { display: flex; align-items: baseline; gap: 10px; }
+.glyph { font-family: var(--glyph); color: var(--gold); font-size: 22px; line-height: 1; min-width: 1.4em; }
+.svc h3 { font-family: var(--display); font-size: 22px; font-weight: 700; margin: 0; line-height: 1.15; }
+.svc p { margin: 6px 0 0; }
+.ex { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.ex li { font-style: italic; font-size: 13.5px; background: var(--paper); border: 1px solid var(--rule); border-radius: 999px; padding: 2px 10px; }
+.data { font-size: 13.5px; color: var(--ink-soft); }
+.data b { color: var(--ink); font-weight: 600; }
+.see { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+.fill { margin-top: 10px; font: 600 14px var(--body); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--gold); background: var(--gold-soft); color: var(--ink); cursor: pointer; }
+.fill:hover { filter: brightness(.97); }
+.noform { margin-top: 10px; background: var(--ok-soft); color: var(--ok); border-radius: 8px; padding: 8px 12px; font-size: 13.5px; }
+.noform strong { display: block; }
+
+.howto { margin-top: 28px; background: var(--sheet); border: 1px solid var(--rule); border-radius: 14px; padding: 16px 18px; }
+.howto h2 { font-family: var(--display); font-size: 26px; margin: 0 0 6px; }
+.howto ol { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; }
+.foot { margin-top: 22px; display: grid; gap: 8px; max-width: 72ch; color: var(--ink-soft); font-size: 13.5px; }
+
+/* dialog + form */
+dialog { width: min(760px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border: 1px solid var(--rule); border-radius: 14px; background: var(--sheet); color: var(--ink); }
+dialog::backdrop { background: rgba(10, 12, 28, .55); }
+.dlg-head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: var(--sheet); border-bottom: 1px solid var(--rule); }
+.dlg-head h2 { font-family: var(--display); font-size: 26px; margin: 0; line-height: 1.1; }
+.close { font: 600 22px var(--body); width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--rule); background: transparent; color: var(--ink); cursor: pointer; flex: none; }
+.dlg-body { padding: 14px 18px 18px; }
+.legend { font-size: 12.5px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 10px; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 1px 7px; border-radius: 5px; vertical-align: middle; }
+.tag.req { background: var(--warn-soft); color: var(--warn); }
+.tag.imp { background: var(--gold-soft); color: var(--ink); }
+.tag.opt { background: var(--paper); color: var(--ink-soft); border: 1px solid var(--rule); }
+.intro { margin: 0 0 12px; color: var(--ink-soft); }
+.alert { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 8px 12px; font-size: 13.5px; margin-bottom: 12px; }
+fieldset { border: 0; border-top: 1px solid var(--rule); margin: 0; padding: 12px 0 4px; min-width: 0; }
+legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding: 0 6px 0 0; }
+.f { display: grid; gap: 4px; margin: 10px 0; min-width: 0; }
+.f > label, .f > .lbl { font-weight: 600; }
+.help { font-size: 13px; color: var(--ink-soft); }
+.f input[type=text], .f input[type=date], .f input[type=time], .f textarea { width: 100%; font: 15px var(--body); padding: 9px 11px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); color: var(--ink); }
+.f textarea { min-height: 92px; resize: vertical; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.opts label { display: inline-flex; align-items: center; gap: 6px; font-weight: 400; }
+.f.missing input, .f.missing textarea, .f.missing .opts { outline: 2px solid var(--warn); outline-offset: 2px; border-radius: 8px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.btn { font: 600 14px var(--body); padding: 10px 16px; border-radius: 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer; }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.status { font-size: 13.5px; margin-top: 10px; min-height: 1.2em; }
+.status.err { color: var(--warn); }
+.status.ok { color: var(--ok); }
+.discord { margin-top: 14px; border-left: 4px solid var(--discord); background: var(--paper); border-radius: 8px; padding: 10px 14px; font-size: 13.5px; }
+.discord strong { color: var(--discord); }
+.discord ol { margin: 6px 0 0; padding-left: 18px; }
+.privacy { font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; }
+
+@media (max-width: 720px) {
+  .branch { grid-template-columns: minmax(0, 1fr); }
+  .arrow { height: 22px; }
+  .arrow::before { left: 18px; right: auto; top: 2px; bottom: 6px; width: 2px; height: auto; }
+  .arrow::after { left: 14px; right: auto; top: auto; bottom: 0; border: 5px solid transparent; border-top: 7px solid var(--gold); }
+  dialog { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; border-radius: 0; margin: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .branch { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="eyebrow"><span class="pl">Astrologia tradycyjna</span><span class="en">Traditional astrology</span></div>
+    <div class="lang" role="group" aria-label="Język / Language">
+      <button type="button" id="btn-pl" aria-pressed="true">PL</button>
+      <button type="button" id="btn-en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <h1><span class="pl">Którą astrologię wybrać?</span><span class="en">Which kind of astrology do I need?</span></h1>
+  <p class="lede"><span class="pl">Każdy rodzaj astrologii odpowiada na inne pytanie i potrzebuje innych danych. Znajdź zdanie, które najlepiej opisuje Twoją sprawę, wypełnij ankietę i wyślij mi plik na Discordzie. Pytanie horarne nie ma ankiety — napisz je do mnie bezpośrednio.</span><span class="en">Each kind of astrology answers a different question and needs different data. Find the sentence that best describes your situation, fill in the form and send me the file on Discord. A horary question has no form — write it to me directly.</span></p>
+
+  <div class="root">
+    <p class="root-q"><span class="pl">Od czego zacząć?</span><span class="en">Where do I start?</span></p>
+    <div class="search">
+      <label for="q"><span class="pl">Wpisz słowo, np. ślub, choroba, firma, godzina</span><span class="en">Type a word, e.g. wedding, illness, business, birth time</span></label>
+      <input id="q" type="search" autocomplete="off">
+      <div class="search-note" id="note" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="map" id="map">
+
+    <section class="branch" data-keys="pytanie konkretne teraz czy kiedy gdzie praca sprzedam mieszkanie wróci egzamin decyzja question specific now will when where job sell house come back exam decision horar horary">
+      <div class="need"><span class="pl">Mam jedno konkretne pytanie, ważne teraz</span><span class="en">I have one specific question that matters now</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — pytanie horarne</span><span class="en">Horary question</span></h3></div>
+          <p><span class="pl">Odpowiedź na jedną sprawę: czy, kiedy, gdzie, kto.</span><span class="en">An answer about one matter: whether, when, where, who.</span></p>
+          <ul class="ex"><li class="pl">„Czy dostanę tę pracę?”</li><li class="pl">„Czy sprzedam mieszkanie do końca roku?”</li><li class="pl">„Czy zdam egzamin?”</li><li class="en">“Will I get this job?”</li><li class="en">“Will I sell the flat by the end of the year?”</li><li class="en">“Will I pass the exam?”</li></ul>
+          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Horoskop stawiam na chwilę, w której przeczytam i zrozumiem Twoje pytanie. Napisz je w prywatnej wiadomości na Discordzie (tam, skąd masz ten link), najlepiej wtedy, gdy sprawa jest gorąca: jedno zdanie pytania i kilka zdań tła. Nie poprawiaj pytania w kolejnych wiadomościach.</span><span class="en">I cast the chart for the moment I read and understand your question. Send it in a private message on Discord (where you got this link), ideally while the matter is live: one sentence for the question and a few sentences of background. Don't rephrase it in later messages.</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="życie przyszłość prognoza zdrowie pieniądze praca związek rodzina lata urodzenia natal life future forecast health money work career relationship family years birth chart nativity">
+      <div class="need"><span class="pl">Chcę wiedzieć, co mnie czeka w życiu</span><span class="en">I want to know what my life holds</span><small class="pl">znam godzinę urodzenia</small><small class="en">I know my birth time</small></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☉&#xFE0E;</span><h3><span class="pl">Horoskop urodzeniowy (natalny)</span><span class="en">Birth chart (nativity)</span></h3></div>
+          <p><span class="pl">Zdrowie, pieniądze, praca, związek, dzieci, rodzice, przeprowadzki — co jest Ci dane i kiedy co przyjdzie, z datami na lata.</span><span class="en">Health, money, work, relationships, children, parents, moves — what is given to you and when things will come, dated over the years.</span></p>
+          <ul class="ex"><li class="pl">„Kiedy się ustatkuję?”</li><li class="pl">„Które lata będą najtrudniejsze?”</li><li class="en">“When will I settle down?”</li><li class="en">“Which years will be hardest?”</li></ul>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">data, godzina co do minuty (najlepiej z aktu urodzenia) i miejsce urodzenia; miejsce zamieszkania.</span><span class="en">birth date, time to the minute (ideally from the birth certificate) and place; where you live now.</span></p>
+          <button type="button" class="fill" data-form="natal"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="nie znam godziny godzina urodzenia rektyfikacja ustalenie don't know birth time unknown rectification">
+      <div class="need"><span class="pl">Nie znam godziny urodzenia</span><span class="en">I don't know my birth time</span><small class="pl">albo znam ją tylko w przybliżeniu</small><small class="en">or only roughly</small></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">♄&#xFE0E;</span><h3><span class="pl">Ustalenie godziny urodzenia</span><span class="en">Finding your birth time</span></h3></div>
+          <p><span class="pl">Godzinę odtwarza się z dat ważnych zdarzeń Twojego życia. Potem można zrobić pełny horoskop urodzeniowy.</span><span class="en">The time is reconstructed from the dates of major events in your life. A full birth chart can follow.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">data i miejsce urodzenia oraz 8–15 zdarzeń z datami.</span><span class="en">birth date and place, and 8–15 dated life events.</span></p>
+          <button type="button" class="fill" data-form="rect"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="rok najbliższy roczna urodziny miesiące year next annual birthday months">
+      <div class="need"><span class="pl">Chcę wiedzieć, co przyniesie najbliższy rok</span><span class="en">I want to know what the coming year brings</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">♃&#xFE0E;</span><h3><span class="pl">Prognoza na rok</span><span class="en">The year ahead</span></h3></div>
+          <p><span class="pl">Rok od urodzin do urodzin, z dokładnością do miesięcy: co się zacznie, co skończy, na co uważać.</span><span class="en">One year from birthday to birthday, to the month: what begins, what ends, what to watch.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">dane urodzenia, rok, miejsce zamieszkania.</span><span class="en">birth data, the year, where you live.</span></p>
+          <button type="button" class="fill" data-form="sr"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="termin data dzień najlepszy ślub wesele otwarcie firma umowa podpis przeprowadzka wyjazd zabieg operacja date day best timing wedding opening business contract signing move travel surgery">
+      <div class="need"><span class="pl">Szukam najlepszego terminu</span><span class="en">I'm looking for the best date</span><small class="pl">ślub, firma, umowa, przeprowadzka, planowy zabieg</small><small class="en">wedding, business, contract, move, planned surgery</small></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">♀&#xFE0E;</span><h3><span class="pl">Wybór terminu</span><span class="en">Choosing a date</span></h3></div>
+          <p><span class="pl">Najlepszy dzień i godzina na start ważnej sprawy spośród terminów, które są dla Ciebie możliwe, oraz terminy, których lepiej unikać.</span><span class="en">The best day and hour to begin something important, chosen from the dates open to you — and the dates to avoid.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">co rozpoczynasz, możliwe dni i godziny, miejsce; najlepiej też dane urodzenia osób, których to dotyczy.</span><span class="en">what you are starting, the possible days and hours, the place; ideally the birth data of the people involved.</span></p>
+          <button type="button" class="fill" data-form="elect"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="choroba choruję zdrowie przebieg przełom leczenie medyczna lekarz illness sick health course crisis recovery medical doctor">
+      <div class="need"><span class="pl">Choruję i chcę wiedzieć, jak to przebiegnie</span><span class="en">I'm ill and want to know how it will go</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☽&#xFE0E;</span><h3><span class="pl">Astrologia medyczna</span><span class="en">Medical astrology</span></h3></div>
+          <p><span class="pl">Horoskop trwającej choroby, postawiony na chwilę, w której się zaczęła: jaki ma charakter, kiedy przypadają dni przełomu, kiedy przyjdzie poprawa. Uzupełnia leczenie, nie zastępuje lekarza.</span><span class="en">A chart of an ongoing illness, cast for the moment it began: its nature, the critical days, when improvement will come. It complements treatment and never replaces a doctor.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">kiedy choroba się zaczęła (data, godzina) i gdzie był wtedy chory.</span><span class="en">when the illness began (date, time) and where the patient was.</span></p>
+          <button type="button" class="fill" data-form="med"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+          <p class="see"><span class="pl">Skłonności zdrowotne na całe życie → horoskop urodzeniowy. Jedno pytanie o chorobę („czy zabieg się uda?”) → horar.</span><span class="en">Lifelong health tendencies → birth chart. One question about an illness (“will the operation go well?”) → horary.</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="druga osoba partner partnerka związek para miłość pasujemy wróci zgodzi wspólnik dziecko rodzic other person partner relationship couple love compatible come back agree business partner child parent">
+      <div class="need"><span class="pl">Chodzi o mnie i drugą osobę</span><span class="en">It's about me and another person</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☉&#xFE0E;☽&#xFE0E;</span><h3><span class="pl">Porównanie dwóch horoskopów</span><span class="en">Comparing two charts</span></h3></div>
+          <p><span class="pl">Jak pasujecie na dłuższą metę: gdzie się wspieracie, o co się kłócicie, jak układają się wspólne lata. Para, wspólnicy, rodzic i dziecko.</span><span class="en">How you fit in the long run: where you support each other, what you fight about, how your years together unfold. Couples, business partners, parent and child.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">dane urodzenia obu osób (najlepiej z godzinami) i zgoda drugiej osoby.</span><span class="en">both people's birth data (ideally with times) and the other person's consent.</span></p>
+          <button type="button" class="fill" data-form="pair"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — jedno konkretne pytanie</span><span class="en">Horary — one specific question</span></h3></div>
+          <ul class="ex"><li class="pl">„Czy on wróci?”</li><li class="pl">„Czy będziemy razem?”</li><li class="pl">„Czy ona się zgodzi?”</li><li class="en">“Will he come back?”</li><li class="en">“Will we be together?”</li><li class="en">“Will she agree?”</li></ul>
+          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Prywatna wiadomość na Discordzie, wtedy gdy sprawa jest gorąca.</span><span class="en">A private message on Discord, while the matter is live.</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="firma przedsięwzięcie biznes sklep projekt rozwój wspólnik sprzedaż firmy transakcja business company venture shop project growth sale deal">
+      <div class="need"><span class="pl">Chodzi o firmę lub przedsięwzięcie</span><span class="en">It's about a business or venture</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">♂&#xFE0E;</span><h3><span class="pl">Horoskop firmy</span><span class="en">Business chart</span></h3></div>
+          <p><span class="pl">Dla firmy, która już działa: jak będzie się rozwijać, kiedy dobre i trudne okresy, jak ułożą się pieniądze i wspólnicy.</span><span class="en">For a business already running: how it will grow, its good and hard periods, how money and partners will work out.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">chwila startu (otwarcie, umowa spółki albo wpis do rejestru) i miejscowość.</span><span class="en">the moment it started (opening, partnership agreement or registration) and the town.</span></p>
+          <button type="button" class="fill" data-form="biz"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+          <p class="see"><span class="pl">Firma dopiero powstanie → wybór terminu. Jedna transakcja („czy ta umowa dojdzie do skutku?”) → horar.</span><span class="en">Business not founded yet → choosing a date. One deal (“will this contract go through?”) → horary.</span></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="kraj miasto region świat gospodarka ceny polityka pogoda rynek country city region world economy prices politics weather market mundane">
+      <div class="need"><span class="pl">Chodzi o kraj, miasto, gospodarkę albo świat</span><span class="en">It's about a country, city, the economy or the world</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">♄&#xFE0E;♃&#xFE0E;</span><h3><span class="pl">Astrologia mundalna</span><span class="en">Mundane astrology</span></h3></div>
+          <p><span class="pl">Prognoza dla kraju, miasta albo regionu: gospodarka, ceny, rynek nieruchomości, pogoda w sezonie, nastroje społeczne. Mówi o tym, co czeka wszystkich, a nie tylko Ciebie.</span><span class="en">A forecast for a country, city or region: the economy, prices, property, seasonal weather, public mood. It speaks about what lies ahead for everyone, not just for you.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">miejsce, dziedzina i okres. Żadnych danych osobowych.</span><span class="en">the place, the area of interest and the period. No personal data.</span></p>
+          <button type="button" class="fill" data-form="mund"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="branch" data-keys="zguba zgubiłem zginęło kradzież ukradli gdzie jest lost missing stolen theft where is">
+      <div class="need"><span class="pl">Coś zginęło albo zostało skradzione</span><span class="en">Something is lost or stolen</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">☿&#xFE0E;</span><h3><span class="pl">Horar — pytanie o zgubę</span><span class="en">Horary — lost object</span></h3></div>
+          <p><span class="pl">Czy się znajdzie, gdzie szukać, kto ma z tym związek.</span><span class="en">Will it be found, where to look, who is connected with it.</span></p>
+          <div class="noform"><strong><span class="pl">Bez ankiety — napisz do mnie bezpośrednio</span><span class="en">No form — write to me directly</span></strong><span class="pl">Na Discordzie: co zginęło, kiedy i gdzie widziałeś/aś to ostatni raz.</span><span class="en">On Discord: what is missing, when and where you last saw it.</span></div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <section class="howto" aria-labelledby="howto-h">
+    <h2 id="howto-h"><span class="pl">Jak wysłać ankietę na Discordzie</span><span class="en">How to send the form on Discord</span></h2>
+    <ol>
+      <li><span class="pl">Wypełnij ankietę na tej stronie i kliknij <b>Pobierz plik</b> albo <b>Kopiuj tekst</b>.</span><span class="en">Fill in the form on this page and click <b>Download file</b> or <b>Copy text</b>.</span></li>
+      <li><span class="pl">Otwórz prywatną wiadomość do mnie na Discordzie — tam, skąd masz ten link.</span><span class="en">Open a private message to me on Discord — where you got this link.</span></li>
+      <li><span class="pl">Przeciągnij plik do okna rozmowy (na telefonie: plus → plik) albo wklej tekst (Ctrl+V). Długi tekst Discord sam zamieni na plik — kliknij „Wyślij”.</span><span class="en">Drag the file into the chat (on a phone: plus → file) or paste the text (Ctrl+V). Discord turns long text into a file by itself — just press Send.</span></li>
+    </ol>
+  </section>
+
+  <div class="foot">
+    <p><span class="pl">Wpisane dane zostają w Twojej przeglądarce. Strona niczego nie wysyła ani nie zapisuje na serwerze — plik powstaje na Twoim urządzeniu i to Ty decydujesz, komu go wyślesz. Wysyłaj go tylko w prywatnej wiadomości.</span><span class="en">What you type stays in your browser. This page sends nothing and stores nothing on a server — the file is created on your device and you decide who gets it. Send it only in a private message.</span></p>
+    <p><strong class="pl">Nic nie pasuje?</strong><strong class="en">Nothing fits?</strong> <span class="pl">Opisz swoją sprawę jednym zdaniem na Discordzie — dobiorę rodzaj horoskopu.</span><span class="en">Describe your situation in one sentence on Discord — I'll choose the right kind of chart.</span></p>
+    <p><span class="pl">Horoskop nie zastępuje lekarza, prawnika ani doradcy finansowego.</span><span class="en">A horoscope does not replace a doctor, lawyer or financial adviser.</span></p>
+  </div>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlg-title">
+  <div class="dlg-head">
+    <h2 id="dlg-title"></h2>
+    <button type="button" class="close" id="dlg-close" aria-label="Zamknij / Close">×</button>
+  </div>
+  <div class="dlg-body">
+    <p class="legend"><span><span class="tag req">!</span> <span class="pl">konieczne</span><span class="en">required</span></span><span><span class="tag imp">+</span> <span class="pl">ważne dla dokładności</span><span class="en">improves accuracy</span></span><span><span class="tag opt">–</span> <span class="pl">możesz pominąć</span><span class="en">optional</span></span></p>
+    <form id="frm" novalidate></form>
+    <div class="actions">
+      <button type="button" class="btn primary" id="act-download"><span class="pl">Pobierz plik</span><span class="en">Download file</span></button>
+      <button type="button" class="btn" id="act-copy"><span class="pl">Kopiuj tekst</span><span class="en">Copy text</span></button>
+      <button type="button" class="btn" id="act-clear"><span class="pl">Wyczyść ankietę</span><span class="en">Clear the form</span></button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+    <div class="discord"><strong>Discord</strong> — <span class="pl">przeciągnij pobrany plik do prywatnej wiadomości do mnie albo wklej skopiowany tekst. Długi tekst Discord sam zamieni na plik.</span><span class="en">drag the downloaded file into a private message to me, or paste the copied text. Discord turns long text into a file by itself.</span></div>
+    <p class="privacy"><span class="pl">Wpisane odpowiedzi zapisują się tylko w tej przeglądarce, żebyś nie stracił/a ich po zamknięciu okna. „Wyczyść ankietę” je usuwa.</span><span class="en">Your answers are kept only in this browser so you don't lose them if you close the window. “Clear the form” deletes them.</span></p>
+    <textarea id="copybuf" aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px"></textarea>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  'use strict';
+  // ---------- form definitions ----------
+  var T = function (pl, en) { return { pl: pl, en: en }; };
+  var SRC = [T('odpis zupełny aktu urodzenia (USC)', 'full birth certificate'), T('książeczka zdrowia dziecka / karta ze szpitala', 'child health booklet / hospital record'), T('z pamięci rodziców', "parents' memory"), T('nie wiem', "don't know")];
+  var SEX = [T('kobieta', 'female'), T('mężczyzna', 'male')];
+  var YESNO = [T('tak', 'yes'), T('nie', 'no')];
+  var TOPICS = [T('praca, kariera', 'work, career'), T('pieniądze, majątek', 'money, property'), T('związek, małżeństwo', 'relationship, marriage'), T('dzieci', 'children'), T('dom, przeprowadzki', 'home, moves'), T('zdrowie', 'health'), T('rodzice, rodzina', 'parents, family'), T('wyjazdy, emigracja', 'travel, emigration'), T('nauka, studia', 'education'), T('sprawy urzędowe i sądowe', 'official and legal matters')];
+  var CERT = [T('dokładna', 'exact'), T('± godzina', '± one hour'), T('tylko pora dnia', 'time of day only')];
+  var EVENTS_HELP = T('Jedno zdarzenie w linii: zdarzenie — data — pewność (pewna / mniej więcej / nie pamiętam). Najbardziej przydatne: ślub, narodziny dziecka, śmierć rodzica lub dziadków (napisz kogo), wypadek, operacja, przeprowadzka, zmiana pracy, początek lub koniec związku. Nie musisz opisywać szczegółów.',
+    'One event per line: event — date — certainty (certain / roughly / not sure). Most useful: marriage, birth of a child, death of a parent or grandparent (say who), accident, surgery, move, job change, start or end of a relationship. No details needed.');
+  var EVENTS_PH = T('ślub — 12.06.2020 — pewna\nprzeprowadzka do Krakowa — 09.2015 — mniej więcej\noperacja — 14.03.2019 — pewna', 'marriage — 12.06.2020 — certain\nmoved to Krakow — 09.2015 — roughly\nsurgery — 14.03.2019 — certain');
+
+  function f(id, tier, type, label, extra) { var o = { id: id, tier: tier, type: type, label: label }; for (var k in extra || {}) o[k] = extra[k]; return o; }
+
+  var FORMS = {
+    natal: { title: T('Horoskop urodzeniowy', 'Birth chart'), sections: [
+      { title: T('Dane urodzenia', 'Birth data'), fields: [
+        f('name', 'opt', 'text', T('Imię (może być pseudonim)', 'First name (a nickname is fine)')),
+        f('date', 'req', 'date', T('Data urodzenia', 'Date of birth')),
+        f('time', 'req', 'time', T('Godzina urodzenia, co do minuty', 'Time of birth, to the minute'), { help: T('To najważniejsza informacja: każda minuta różnicy przesuwa część dat o około 3 miesiące. Jeśli nie znasz godziny, wybierz na stronie „Nie znam godziny urodzenia”.', 'The most important item: each minute of error shifts some dates by about 3 months. If you don\'t know the time, choose "I don\'t know my birth time" on the page.') }),
+        f('src', 'req', 'radio', T('Skąd jest ta godzina?', 'Where is this time from?'), { options: SRC }),
+        f('place', 'req', 'text', T('Miejsce urodzenia (miejscowość szpitala; przy wsi także gmina)', 'Place of birth (town of the hospital)')),
+        f('sex', 'req', 'radio', T('Płeć', 'Sex'), { options: SEX, help: T('Metoda tradycyjna inaczej odczytuje u kobiety i u mężczyzny np. małżeństwo i dzieci.', 'The traditional method reads e.g. marriage and children differently for women and men.') }),
+        f('twin', 'imp', 'text', T('Ciąża mnoga? Jeśli tak — który/a z kolei', 'Twin or multiple birth? If so, which in order'))
+      ]},
+      { title: T('Prognoza', 'Forecast'), fields: [
+        f('res', 'req', 'text', T('Gdzie mieszkasz obecnie (sama miejscowość)', 'Where you live now (town only)'), { help: T('Prognozy roczne liczę dla miejsca zamieszkania.', 'Annual forecasts are cast for where you live.') }),
+        f('move', 'imp', 'text', T('Planowana przeprowadzka — dokąd i kiedy', 'Planned move — where and when')),
+        f('period', 'imp', 'radio', T('Jaki okres Cię interesuje?', 'Which period interests you?'), { options: [T('5 lat', '5 years'), T('10 lat', '10 years'), T('20 lat', '20 years'), T('całe życie', 'whole life')] }),
+        f('topics', 'imp', 'checks', T('Co Cię najbardziej interesuje? (najwyżej 3)', 'What interests you most? (up to 3)'), { options: TOPICS, max: 3 }),
+        f('questions', 'opt', 'textarea', T('Konkretne pytania (najwyżej 3, każde w osobnej linii)', 'Specific questions (up to 3, one per line)'))
+      ]},
+      { title: T('Zdarzenia z przeszłości', 'Past events'), fields: [
+        f('events', 'imp', 'textarea', T('5–10 zdarzeń z datami — po godzinie urodzenia to najcenniejsza część', '5–10 dated events — after the birth time, the most valuable part'), { help: EVENTS_HELP, ph: EVENTS_PH })
+      ]}
+    ]},
+    rect: { title: T('Ustalenie godziny urodzenia', 'Finding your birth time'), intro: T('Godzinę ustalam z dat zdarzeń Twojego życia. Bez kilku zdarzeń z dokładnym dniem ustalenie godziny nie jest możliwe.', 'I find the time from the dates of events in your life. Without several events dated to the day it cannot be done.'), sections: [
+      { title: T('Dane urodzenia', 'Birth data'), fields: [
+        f('date', 'req', 'date', T('Data urodzenia', 'Date of birth')),
+        f('place', 'req', 'text', T('Miejsce urodzenia (miejscowość szpitala)', 'Place of birth (town of the hospital)')),
+        f('sex', 'req', 'radio', T('Płeć', 'Sex'), { options: SEX }),
+        f('known', 'req', 'text', T('Co wiadomo o godzinie? Przedział i od kogo', 'What is known about the time? A range and from whom'), { ph: T('np. między 6 a 9 rano — mama; albo: nic', 'e.g. between 6 and 9 am — mother; or: nothing') }),
+        f('res', 'imp', 'text', T('Gdzie mieszkasz obecnie (sama miejscowość)', 'Where you live now (town only)'))
+      ]},
+      { title: T('Zdarzenia z datami', 'Dated events'), fields: [
+        f('events', 'req', 'textarea', T('Co najmniej 8 zdarzeń, najlepiej 12–15; 3–4 z dokładnym dniem', 'At least 8 events, ideally 12–15; 3–4 dated to the day'), { help: EVENTS_HELP, ph: EVENTS_PH, rows: 10 })
+      ]},
+      { title: T('Wygląd', 'Appearance'), fields: [
+        f('look', 'opt', 'textarea', T('Wygląd w wieku 20–30 lat: wzrost, budowa ciała, kolor włosów, karnacja, cechy charakterystyczne', 'Appearance at age 20–30: height, build, hair colour, complexion, distinctive features'), { help: T('Tradycyjnie pomaga zawęzić znak wschodzący.', 'Traditionally it helps narrow down the rising sign.') })
+      ]}
+    ]},
+    sr: { title: T('Prognoza na rok', 'The year ahead'), sections: [
+      { title: T('Czy był już horoskop urodzeniowy?', 'Have I done your birth chart before?'), fields: [
+        f('prev', 'req', 'radio', T('Czy robiłem już Twój horoskop urodzeniowy?', 'Have I already done your birth chart?'), { options: YESNO, help: T('Jeśli tak, możesz pominąć dane urodzenia poniżej.', 'If yes, you can skip the birth data below.') }),
+        f('date', 'reqif', 'date', T('Data urodzenia', 'Date of birth'), { reqIf: ['prev', 1] }),
+        f('time', 'reqif', 'time', T('Godzina urodzenia, co do minuty', 'Time of birth, to the minute'), { reqIf: ['prev', 1] }),
+        f('src', 'reqif', 'radio', T('Skąd jest ta godzina?', 'Where is this time from?'), { options: SRC, reqIf: ['prev', 1] }),
+        f('place', 'reqif', 'text', T('Miejsce urodzenia', 'Place of birth'), { reqIf: ['prev', 1] }),
+        f('sex', 'reqif', 'radio', T('Płeć', 'Sex'), { options: SEX, reqIf: ['prev', 1] })
+      ]},
+      { title: T('Rok, o który pytasz', 'The year you ask about'), fields: [
+        f('year', 'req', 'text', T('Który rok?', 'Which year?'), { ph: T('np. od urodzin w 2027 do urodzin w 2028', 'e.g. from my 2027 birthday to my 2028 birthday') }),
+        f('res', 'req', 'text', T('Gdzie mieszkasz (sama miejscowość)', 'Where you live (town only)')),
+        f('move', 'imp', 'text', T('Czy w tym roku planujesz przeprowadzkę? Dokąd i kiedy', 'Are you planning a move this year? Where and when')),
+        f('topics', 'imp', 'checks', T('Co Cię w tym roku najbardziej interesuje? (najwyżej 3)', 'What interests you most this year? (up to 3)'), { options: TOPICS, max: 3 }),
+        f('recent', 'opt', 'textarea', T('Co ważnego wydarzyło się w ostatnich 12 miesiącach (z miesiącem)', 'What important happened in the last 12 months (with the month)'), { ph: T('np. zmiana pracy — marzec', 'e.g. job change — March') })
+      ]}
+    ]},
+    pair: { title: T('Porównanie dwóch horoskopów', 'Comparing two charts'), intro: T('Bez godzin porównanie pokaże charaktery i ich zgodność, ale nie pokaże dat. Historii Waszej relacji nie potrzebuję — horoskopy pokazują ją same.', 'Without birth times the comparison shows characters and compatibility but no dates. I don\'t need the history of your relationship — the charts show it.'), sections: [
+      { title: T('Relacja', 'Relationship'), fields: [
+        f('rel', 'req', 'radio', T('Kim jest dla Ciebie ta osoba?', 'Who is this person to you?'), { options: [T('partner/partnerka', 'partner'), T('ktoś, z kim może coś być', 'someone it may become something with'), T('małżonek', 'spouse'), T('wspólnik', 'business partner'), T('dziecko', 'child'), T('rodzic', 'parent'), T('przyjaciel', 'friend'), T('inna', 'other')] }),
+        f('consent', 'req', 'radio', T('Czy ta osoba wie o zamówieniu i się zgadza?', 'Does this person know about it and agree?'), { options: YESNO })
+      ]},
+      { title: T('Twoje dane', 'Your data'), fields: [
+        f('a_date', 'req', 'date', T('Data urodzenia', 'Date of birth')),
+        f('a_place', 'req', 'text', T('Miejsce urodzenia', 'Place of birth')),
+        f('a_time', 'imp', 'time', T('Godzina urodzenia, co do minuty', 'Time of birth, to the minute')),
+        f('a_src', 'imp', 'radio', T('Skąd jest godzina?', 'Where is the time from?'), { options: SRC }),
+        f('a_sex', 'req', 'radio', T('Płeć', 'Sex'), { options: SEX })
+      ]},
+      { title: T('Dane drugiej osoby', "The other person's data"), fields: [
+        f('b_date', 'req', 'date', T('Data urodzenia', 'Date of birth')),
+        f('b_place', 'req', 'text', T('Miejsce urodzenia', 'Place of birth')),
+        f('b_time', 'imp', 'time', T('Godzina urodzenia, co do minuty', 'Time of birth, to the minute')),
+        f('b_src', 'imp', 'radio', T('Skąd jest godzina?', 'Where is the time from?'), { options: SRC }),
+        f('b_sex', 'req', 'radio', T('Płeć', 'Sex'), { options: SEX })
+      ]},
+      { title: T('Pytanie', 'Question'), fields: [
+        f('q', 'opt', 'textarea', T('Co najbardziej chcesz wiedzieć?', 'What do you most want to know?'), { ph: T('np. czy to się nada na całe życie; jak się dogadamy w pieniądzach', 'e.g. will it last a lifetime; how will we manage money together') })
+      ]}
+    ]},
+    elect: { title: T('Wybór terminu', 'Choosing a date'), intro: T('Im szerszy przedział dat i godzin, tym lepszy termin da się znaleźć. Najlepiej zgłosić się 2–3 miesiące przed planowanym startem.', 'The wider the range of dates and hours, the better the date I can find. Ideally come 2–3 months before the planned start.'), sections: [
+      { title: T('Co rozpoczynasz', 'What you are starting'), fields: [
+        f('what', 'req', 'text', T('Co dokładnie ma się rozpocząć (jedno zdanie)', 'What exactly is to begin (one sentence)')),
+        f('goal', 'req', 'text', T('Co jest w tej sprawie najważniejsze?', 'What matters most here?'), { ph: T('np. trwałość, zysk, zgoda stron, szybki efekt, bezpieczeństwo', 'e.g. durability, profit, agreement, a quick result, safety') }),
+        f('start', 'req', 'text', T('Który moment uznajemy za początek?', 'Which moment counts as the start?'), { ph: T('np. przysięga przy ślubie, podpis pod umową, otwarcie drzwi dla klientów, wyjazd z domu', 'e.g. the wedding vow, signing the contract, opening the doors, leaving home') })
+      ]},
+      { title: T('Kiedy i gdzie', 'When and where'), fields: [
+        f('from', 'req', 'date', T('Od kiedy termin jest możliwy', 'Earliest possible date')),
+        f('to', 'req', 'date', T('Do kiedy', 'Latest possible date')),
+        f('hours', 'req', 'text', T('W jakich dniach i godzinach jest możliwy', 'On which days and at what hours'), { ph: T('np. tylko soboty 12–18; dni robocze 9–15', 'e.g. Saturdays only 12–6 pm; weekdays 9–3') }),
+        f('place', 'req', 'text', T('Gdzie to się odbędzie (miejscowość)', 'Where it will take place (town)')),
+        f('block', 'imp', 'textarea', T('Terminy, które z góry odpadają', 'Dates that are ruled out')),
+        f('med', 'opt', 'textarea', T('Przy zabiegu medycznym: terminy zaakceptowane przez lekarza', 'For a medical procedure: dates your doctor has approved'), { help: T('Wybieram tylko spośród nich.', 'I choose only among these.') })
+      ]},
+      { title: T('Osoby, których to dotyczy', 'People involved'), fields: [
+        f('people', 'imp', 'textarea', T('Dla każdej osoby w osobnej linii: rola — data urodzenia — godzina (skąd) — miejsce — czy się zgadza', 'One line per person: role — date of birth — time (source) — place — consents?'), { ph: T('ja — 04.05.1990 — 14:20 (akt) — Kraków — tak\nnarzeczona — 11.09.1992 — nie wiem — Tarnów — tak', 'me — 04.05.1990 — 14:20 (certificate) — Krakow — yes'), help: T('Termin dobiera się też do horoskopu osoby.', 'The date is also fitted to the person\'s birth chart.') })
+      ]}
+    ]},
+    med: { title: T('Astrologia medyczna', 'Medical astrology'), alert: T('Horoskop nie zastępuje lekarza. Przy niepokojących objawach idź do lekarza od razu.', 'A horoscope does not replace a doctor. With worrying symptoms, see a doctor at once.'), sections: [
+      { title: T('Kogo dotyczy', 'Who it concerns'), fields: [
+        f('who', 'req', 'radio', T('Choroba dotyczy', 'The illness concerns'), { options: [T('mnie', 'me'), T('innej osoby', 'another person')] }),
+        f('who_rel', 'opt', 'text', T('Jeśli innej osoby — kim jest dla Ciebie', 'If another person — who they are to you')),
+        f('consent', 'reqif', 'radio', T('Czy ta osoba wie o zamówieniu i się zgadza?', 'Does this person know about it and agree?'), { options: YESNO, reqIf: ['who', 1] }),
+        f('sexage', 'req', 'text', T('Płeć i wiek chorej osoby', 'Sex and age of the patient'))
+      ]},
+      { title: T('Chwila początku choroby', 'When the illness began'), intro: T('Wpisz każdy moment, który znasz — z datą i godziną, choćby przybliżoną. Wystarczy jeden.', 'Enter every moment you know — with date and time, even approximate. One is enough.'), fields: [
+        f('bed', 'one', 'text', T('a) chwila, gdy chory musiał się położyć albo przerwać zwykłe zajęcia', 'a) when the patient had to lie down or stop normal activities'), { ph: T('np. 29.10.2026, ok. 14:30', 'e.g. 29.10.2026, about 2:30 pm'), group: 'onset' }),
+        f('first', 'one', 'text', T('b) pierwsze wyraźne objawy', 'b) first clear symptoms'), { ph: T('np. 27.10.2026, wieczorem', 'e.g. 27.10.2026, evening'), group: 'onset' }),
+        f('doc', 'one', 'text', T('c) pierwsza wizyta u lekarza, przyjęcie do szpitala albo badania', 'c) first doctor visit, hospital admission or tests'), { group: 'onset' }),
+        f('place', 'req', 'text', T('Miejscowość, w której chory wtedy był', 'Town where the patient was at that moment')),
+        f('cert', 'imp', 'radio', T('Jak pewna jest ta godzina?', 'How certain is this time?'), { options: CERT })
+      ]},
+      { title: T('Nieobowiązkowe', 'Optional'), fields: [
+        f('birth', 'opt', 'textarea', T('Dane urodzenia chorej osoby (data, godzina, miejsce)', "The patient's birth data (date, time, place)")),
+        f('dx', 'opt', 'textarea', T('Rozpoznanie lekarskie, jeśli już jest', "The doctor's diagnosis, if any"), { help: T('Możesz je pominąć: horoskop opisuje chorobę sam, a rozpoznanie podane później pomaga sprawdzić jego trafność.', 'You may skip it: the chart describes the illness by itself, and a diagnosis given later helps check its accuracy.') })
+      ]}
+    ]},
+    biz: { title: T('Horoskop firmy', 'Business chart'), sections: [
+      { title: T('Chwila startu', 'When it started'), intro: T('Wpisz każdy moment, który znasz — z datą, godziną (choćby przybliżoną) i miejscowością. Najcenniejszy jest pierwszy. Wystarczy jeden.', 'Enter every moment you know — with date, time (even approximate) and town. The first is the most valuable. One is enough.'), fields: [
+        f('open', 'one', 'text', T('a) faktyczny start: otwarcie dla klientów, pierwsza sprzedaż, uruchomienie usługi', 'a) actual start: opening to customers, first sale, service launch'), { group: 'start' }),
+        f('sign', 'one', 'text', T('b) podpisanie umowy spółki albo aktu założycielskiego', 'b) signing of the partnership agreement or founding deed'), { group: 'start' }),
+        f('reg', 'one', 'text', T('c) wpis do rejestru (CEIDG / KRS) — data, godzina jeśli jest', 'c) registration — date, and time if known'), { group: 'start' }),
+        f('place', 'req', 'text', T('Miejscowość, w której to się stało', 'Town where it happened')),
+        f('cert', 'imp', 'radio', T('Jak pewna jest godzina?', 'How certain is the time?'), { options: [T('dokładna', 'exact'), T('± godzina', '± one hour'), T('tylko data', 'date only')] })
+      ]},
+      { title: T('Pytanie', 'Question'), fields: [
+        f('what', 'req', 'text', T('Czym zajmuje się firma (jedno zdanie)', 'What the business does (one sentence)')),
+        f('q', 'req', 'textarea', T('Co chcesz wiedzieć?', 'What do you want to know?'), { ph: T('np. kiedy przyjdzie wzrost; czy zatrzymać wspólnika; kiedy sprzedać firmę', 'e.g. when growth will come; whether to keep a partner; when to sell') }),
+        f('period', 'imp', 'text', T('Jaki okres Cię interesuje', 'Which period interests you'))
+      ]},
+      { title: T('Nieobowiązkowe', 'Optional'), fields: [
+        f('owners', 'opt', 'textarea', T('Dane urodzenia właściciela lub wspólników (data, godzina, miejsce)', 'Birth data of the owner or partners (date, time, place)'))
+      ]}
+    ]},
+    mund: { title: T('Astrologia mundalna', 'Mundane astrology'), intro: T('Ta prognoza mówi o tym, co czeka wszystkich, a nie o Twoim osobistym losie. Nie potrzebuję żadnych Twoich danych osobowych.', 'This forecast is about what lies ahead for everyone, not your personal fate. I need no personal data from you.'), sections: [
+      { title: T('Prognoza', 'Forecast'), fields: [
+        f('place', 'req', 'text', T('Czego dotyczy (kraj, miasto, region)', 'What it is about (country, city, region)'), { ph: T('np. Polska, Kraków, Małopolska', 'e.g. Poland, Krakow') }),
+        f('area', 'req', 'checks', T('Jaka dziedzina Cię interesuje?', 'Which area interests you?'), { options: [T('gospodarka, ceny', 'economy, prices'), T('nieruchomości', 'property'), T('rolnictwo, pogoda', 'farming, weather'), T('polityka, władza', 'politics, government'), T('zdrowie publiczne', 'public health'), T('konflikty, bezpieczeństwo', 'conflict, security'), T('inna', 'other')] }),
+        f('other', 'opt', 'text', T('Inna dziedzina — jaka', 'Other area — which')),
+        f('period', 'req', 'text', T('Okres', 'Period'), { ph: T('np. rok od marca 2027; najbliższe 3 lata', 'e.g. the year from March 2027; the next 3 years') }),
+        f('q', 'imp', 'text', T('Twoje pytanie jednym zdaniem', 'Your question in one sentence'), { ph: T('np. Czy w 2027 ceny mieszkań w Krakowie spadną?', 'e.g. Will flat prices in Krakow fall in 2027?') }),
+        f('why', 'opt', 'text', T('Po co Ci ta prognoza (np. decyzja o kupnie)', 'What you need it for (e.g. a purchase decision)'))
+      ]}
+    ]}
+  };
+
+  // ---------- language ----------
+  var root = document.documentElement;
+  var btnPl = document.getElementById('btn-pl'), btnEn = document.getElementById('btn-en');
+  function lang() { return root.getAttribute('data-lang') === 'en' ? 'en' : 'pl'; }
+  function setLang(l) {
+    root.setAttribute('data-lang', l); root.setAttribute('lang', l);
+    btnPl.setAttribute('aria-pressed', String(l === 'pl')); btnEn.setAttribute('aria-pressed', String(l === 'en'));
+    document.title = l === 'en' ? 'Traditional astrology — which kind do I need?' : 'Astrologia tradycyjna — którą astrologię wybrać?';
+    try { localStorage.setItem('astro-lang', l); } catch (e) {}
+    filter();
+    if (current && dlg.open) renderForm(current);
+  }
+  btnPl.addEventListener('click', function () { setLang('pl'); });
+  btnEn.addEventListener('click', function () { setLang('en'); });
+
+  // ---------- search ----------
+  var q = document.getElementById('q'), note = document.getElementById('note');
+  var branches = Array.prototype.slice.call(document.querySelectorAll('.branch'));
+  function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ł/g, 'l'); }
+  function filter() {
+    var t = norm(q.value.trim()), en = lang() === 'en';
+    if (!t) { branches.forEach(function (b) { b.classList.remove('dim'); }); note.textContent = ''; return; }
+    var words = t.split(/\s+/), hits = 0;
+    branches.forEach(function (b) {
+      var keys = norm(b.getAttribute('data-keys') + ' ' + b.textContent);
+      var ok = words.every(function (w) { return keys.indexOf(w) !== -1; });
+      b.classList.toggle('dim', !ok); if (ok) hits++;
+    });
+    note.textContent = hits ? (en ? 'Matching: ' + hits : 'Pasuje: ' + hits)
+      : (en ? 'No match — describe your situation in one sentence on Discord.' : 'Brak dopasowania — opisz sprawę jednym zdaniem na Discordzie.');
+  }
+  q.addEventListener('input', filter);
+
+  // ---------- dialog + form ----------
+  var dlg = document.getElementById('dlg'), frm = document.getElementById('frm');
+  var titleEl = document.getElementById('dlg-title'), statusEl = document.getElementById('status');
+  var current = null, opener = null;
+  function key(id) { return 'astro-draft-' + id; }
+  function loadDraft(id) { try { return JSON.parse(localStorage.getItem(key(id)) || '{}'); } catch (e) { return {}; } }
+  function saveDraft() { if (!current) return; try { localStorage.setItem(key(current), JSON.stringify(collect())); } catch (e) {} }
+  function el(tag, attrs, text) { var e = document.createElement(tag); for (var k in attrs || {}) { if (k === 'class') e.className = attrs[k]; else e.setAttribute(k, attrs[k]); } if (text != null) e.textContent = text; return e; }
+  var TAGS = { req: ['req', '!'], reqif: ['req', '!'], one: ['req', '!'], imp: ['imp', '+'], opt: ['opt', '–'] };
+
+  function renderForm(id) {
+    var def = FORMS[id], L = lang(), vals = collect(true) || loadDraft(id);
+    if (frm.getAttribute('data-form') !== id) vals = loadDraft(id);
+    frm.innerHTML = ''; frm.setAttribute('data-form', id);
+    titleEl.textContent = def.title[L];
+    if (def.alert) frm.appendChild(el('div', { class: 'alert' }, def.alert[L]));
+    if (def.intro) frm.appendChild(el('p', { class: 'intro' }, def.intro[L]));
+    def.sections.forEach(function (sec) {
+      var fs = el('fieldset'); fs.appendChild(el('legend', null, sec.title[L]));
+      if (sec.intro) fs.appendChild(el('p', { class: 'help' }, sec.intro[L]));
+      sec.fields.forEach(function (fd) {
+        var wrap = el('div', { class: 'f', 'data-id': fd.id });
+        var tg = TAGS[fd.tier], tag = el('span', { class: 'tag ' + tg[0], title: tg[0] }, tg[1]);
+        var fid = 'f-' + id + '-' + fd.id, v = vals[fd.id];
+        if (fd.type === 'radio' || fd.type === 'checks') {
+          var lbl = el('div', { class: 'lbl', id: fid + '-l' }); lbl.appendChild(tag); lbl.appendChild(document.createTextNode(' ' + fd.label[L]));
+          wrap.appendChild(lbl);
+          var box = el('div', { class: 'opts', role: fd.type === 'radio' ? 'radiogroup' : 'group', 'aria-labelledby': fid + '-l' });
+          fd.options.forEach(function (o, i) {
+            var oid = fid + '-' + i, lab = el('label', { for: oid });
+            var inp = el('input', { type: fd.type === 'radio' ? 'radio' : 'checkbox', id: oid, name: fid, value: String(i) });
+            if (fd.type === 'radio' && v === i) inp.checked = true;
+            if (fd.type === 'checks' && Array.isArray(v) && v.indexOf(i) !== -1) inp.checked = true;
+            lab.appendChild(inp); lab.appendChild(document.createTextNode(o[L])); box.appendChild(lab);
+          });
+          wrap.appendChild(box);
+        } else {
+          var lb = el('label', { for: fid }); lb.appendChild(tag); lb.appendChild(document.createTextNode(' ' + fd.label[L])); wrap.appendChild(lb);
+          var inp2 = fd.type === 'textarea' ? el('textarea', { id: fid, rows: String(fd.rows || 4) }) : el('input', { id: fid, type: fd.type, autocomplete: 'off' });
+          if (fd.ph) inp2.setAttribute('placeholder', fd.ph[L]);
+          if (typeof v === 'string') inp2.value = v;
+          wrap.appendChild(inp2);
+        }
+        if (fd.help) wrap.appendChild(el('div', { class: 'help' }, fd.help[L]));
+        fs.appendChild(wrap);
+      });
+      frm.appendChild(fs);
+    });
+  }
+
+  function fields(id) { var out = []; FORMS[id].sections.forEach(function (s) { s.fields.forEach(function (x) { out.push(x); }); }); return out; }
+  function collect(soft) {
+    if (!current || frm.getAttribute('data-form') !== current) return soft ? null : {};
+    var o = {};
+    fields(current).forEach(function (fd) {
+      var fid = 'f-' + current + '-' + fd.id;
+      if (fd.type === 'radio') { var c = frm.querySelector('input[name="' + fid + '"]:checked'); if (c) o[fd.id] = Number(c.value); }
+      else if (fd.type === 'checks') { var arr = []; frm.querySelectorAll('input[name="' + fid + '"]:checked').forEach(function (c2) { arr.push(Number(c2.value)); }); if (arr.length) o[fd.id] = arr; }
+      else { var e = document.getElementById(fid); if (e && e.value.trim()) o[fd.id] = e.value; }
+    });
+    return o;
+  }
+  function filled(v) { return v !== undefined && v !== null && !(Array.isArray(v) && !v.length) && String(v).trim() !== ''; }
+
+  function validate() {
+    var vals = collect(), L = lang(), missing = [], groups = {};
+    frm.querySelectorAll('.f.missing').forEach(function (w) { w.classList.remove('missing'); });
+    fields(current).forEach(function (fd) {
+      var need = fd.tier === 'req' || (fd.tier === 'reqif' && vals[fd.reqIf[0]] === fd.reqIf[1]);
+      if (fd.tier === 'one') { groups[fd.group] = groups[fd.group] || { ok: false, items: [] }; groups[fd.group].items.push(fd); if (filled(vals[fd.id])) groups[fd.group].ok = true; }
+      if (need && !filled(vals[fd.id])) missing.push(fd);
+      if (fd.type === 'checks' && fd.max && Array.isArray(vals[fd.id]) && vals[fd.id].length > fd.max) missing.push(fd);
+    });
+    Object.keys(groups).forEach(function (g) {
+      if (groups[g].ok) return;
+      groups[g].items.forEach(function (fd) { var w = frm.querySelector('.f[data-id="' + fd.id + '"]'); if (w) w.classList.add('missing'); });
+      missing.push({ id: '', label: T('co najmniej jeden z punktów a–c', 'at least one of items a–c') });
+    });
+    missing.forEach(function (fd) { var w = fd.id && frm.querySelector('.f[data-id="' + fd.id + '"]'); if (w) w.classList.add('missing'); });
+    if (missing.length) {
+      statusEl.className = 'status err';
+      statusEl.textContent = (L === 'en' ? 'Please complete: ' : 'Uzupełnij: ') + missing.map(function (m) { return m.label[L]; }).join('; ');
+      var first = frm.querySelector('.f.missing input, .f.missing textarea'); if (first) first.focus();
+      return null;
+    }
+    return vals;
+  }
+
+  function stamp() {
+    var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
+    var off = -d.getTimezoneOffset(), sign = off >= 0 ? '+' : '-', a = Math.abs(off);
+    return { date: d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()), time: p(d.getHours()) + ':' + p(d.getMinutes()), tz: 'UTC' + sign + p(Math.floor(a / 60)) + ':' + p(a % 60) };
+  }
+  function fmtVal(fd, v, L) {
+    if (fd.type === 'radio') return fd.options[v][L];
+    if (fd.type === 'checks') return v.map(function (i) { return fd.options[i][L]; }).join('; ');
+    if (fd.type === 'date') { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v); return m ? m[3] + '.' + m[2] + '.' + m[1] : v; }
+    return v;
+  }
+  function buildText(vals) {
+    var def = FORMS[current], L = lang(), s = stamp(), lines = [];
+    lines.push((L === 'en' ? 'TRADITIONAL ASTROLOGY — FORM: ' : 'ASTROLOGIA TRADYCYJNA — ANKIETA: ') + def.title[L].toUpperCase());
+    lines.push('form: ' + current + ' · lang: ' + L + ' · ' + (L === 'en' ? 'filled in: ' : 'wypełniono: ') + s.date + ' ' + s.time + ' (' + s.tz + ')');
+    lines.push('');
+    def.sections.forEach(function (sec) {
+      var body = [];
+      sec.fields.forEach(function (fd) {
+        var v = vals[fd.id]; if (!filled(v)) return;
+        var txt = fmtVal(fd, v, L);
+        if (fd.type === 'textarea') { body.push(fd.label[L] + ':'); String(txt).split(/\r?\n/).forEach(function (ln) { if (ln.trim()) body.push('  ' + ln.trim()); }); }
+        else body.push(fd.label[L] + ': ' + txt);
+      });
+      if (body.length) { lines.push('## ' + sec.title[L]); lines = lines.concat(body); lines.push(''); }
+    });
+    return lines.join('\n').trim() + '\n';
+  }
+  function fileName() { var s = stamp(); return 'ankieta-' + current + '-' + s.date + '.txt'; }
+
+  function openForm(id, btn) {
+    current = id; opener = btn || null; statusEl.textContent = ''; statusEl.className = 'status';
+    frm.removeAttribute('data-form'); renderForm(id);
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    var firstInput = frm.querySelector('input, textarea'); if (firstInput) firstInput.focus();
+  }
+  function closeForm() { saveDraft(); if (dlg.open) { if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open'); } if (opener) opener.focus(); }
+  document.querySelectorAll('.fill').forEach(function (b) { b.addEventListener('click', function () { openForm(b.getAttribute('data-form'), b); }); });
+  document.getElementById('dlg-close').addEventListener('click', closeForm);
+  dlg.addEventListener('close', saveDraft);
+  frm.addEventListener('input', saveDraft);
+  frm.addEventListener('change', saveDraft);
+  frm.addEventListener('submit', function (e) { e.preventDefault(); });
+
+  document.getElementById('act-download').addEventListener('click', function () {
+    var vals = validate(); if (!vals) return;
+    var blob = new Blob([buildText(vals)], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = fileName(); document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    statusEl.className = 'status ok';
+    statusEl.textContent = lang() === 'en' ? 'Saved as ' + fileName() + '. Now drag it into a private message to me on Discord.' : 'Zapisano jako ' + fileName() + '. Teraz przeciągnij go do prywatnej wiadomości do mnie na Discordzie.';
+  });
+  document.getElementById('act-copy').addEventListener('click', function () {
+    var vals = validate(); if (!vals) return;
+    var text = buildText(vals), L = lang();
+    function done() { statusEl.className = 'status ok'; statusEl.textContent = L === 'en' ? 'Copied. Paste it (Ctrl+V) in a private message to me on Discord.' : 'Skopiowano. Wklej (Ctrl+V) w prywatnej wiadomości do mnie na Discordzie.'; }
+    function fallback() { var b = document.getElementById('copybuf'); b.value = text; b.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) {} if (ok) done(); else { statusEl.className = 'status err'; statusEl.textContent = L === 'en' ? 'Copying is blocked here — use Download file instead.' : 'Kopiowanie jest tu zablokowane — użyj „Pobierz plik”.'; } }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  });
+  document.getElementById('act-clear').addEventListener('click', function () {
+    try { localStorage.removeItem(key(current)); } catch (e) {}
+    frm.removeAttribute('data-form'); renderForm(current);
+    statusEl.className = 'status'; statusEl.textContent = lang() === 'en' ? 'The form is empty.' : 'Ankieta jest pusta.';
+  });
+
+  // ---------- start ----------
+  var start = 'pl';
+  try { start = localStorage.getItem('astro-lang') || 'pl'; } catch (e) {}
+  if (location.hash === '#en') start = 'en';
+  if (location.hash === '#pl') start = 'pl';
+  setLang(start === 'en' ? 'en' : 'pl');
+})();
+</script>
+</body>
+</html>
