@@ -292,6 +292,19 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
       </div>
     </section>
 
+    <section class="branch" data-keys="po odczycie wynik sprawdzenie ankieta zwrotna opinia fakty feedback after reading result check">
+      <div class="need"><span class="pl">Masz już odczyt i chcesz pomóc go sprawdzić</span><span class="en">You already have a reading and want to help check it</span></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="services">
+        <article class="svc">
+          <div class="svc-head"><span class="glyph" aria-hidden="true">✓</span><h3><span class="pl">Po odczycie: jak jest naprawdę</span><span class="en">After your reading: how things really are</span></h3></div>
+          <p><span class="pl">Kilka faktów z Twojego życia — rodzeństwo, związki, dzieci, praca, ważne daty. Dzięki nim sprawdzam, które metody naprawdę trafiają, i poprawiam odczyty.</span><span class="en">A few facts from your life — siblings, relationships, children, work, key dates. They let me check which methods really work and improve the readings.</span></p>
+          <p class="data"><b class="pl">Potrzebne:</b><b class="en">You need:</b> <span class="pl">data urodzenia (żeby połączyć z odczytem). Resztę podajesz, ile chcesz.</span><span class="en">your date of birth (to match it to your reading). Share as much of the rest as you like.</span></p>
+          <button type="button" class="fill" data-form="fb"><span class="pl">Wypełnij ankietę</span><span class="en">Fill in the form</span></button>
+        </article>
+      </div>
+    </section>
+
   </div>
 
   <section class="howto" aria-labelledby="howto-h">
@@ -485,6 +498,48 @@ legend { font-family: var(--display); font-size: 21px; font-weight: 700; padding
         f('period', 'req', 'text', T('Okres', 'Period'), { ph: T('np. rok od marca 2027; najbliższe 3 lata', 'e.g. the year from March 2027; the next 3 years') }),
         f('q', 'imp', 'text', T('Twoje pytanie jednym zdaniem', 'Your question in one sentence'), { ph: T('np. Czy w 2027 ceny mieszkań w Krakowie spadną?', 'e.g. Will flat prices in Krakow fall in 2027?') }),
         f('why', 'opt', 'text', T('Po co Ci ta prognoza (np. decyzja o kupnie)', 'What you need it for (e.g. a purchase decision)'))
+      ]}
+    ]},
+    fb: { title: T('Po odczycie: jak jest naprawdę', 'After your reading: how things really are'), intro: T('Ta ankieta pomaga mi sprawdzać, które metody naprawdę trafiają, i poprawiać odczyty dla wszystkich. Podaj same fakty — nie musisz oceniać odczytu. Czego nie wiesz albo nie chcesz podać, zostaw puste.', 'This form helps me check which methods really work and improve readings for everyone. Give facts only — you do not need to rate the reading. Leave empty whatever you do not know or prefer not to share.'), sections: [
+      { title: T('Kogo dotyczy', 'Who it is about'), fields: [
+        f('name', 'opt', 'text', T('Imię lub pseudonim, jak w pierwszej ankiecie', 'First name or nickname, as in the first form')),
+        f('date', 'req', 'date', T('Data urodzenia', 'Date of birth'), { help: T('Po niej połączę ankietę z Twoim odczytem.', 'I use it to match this form to your reading.') }),
+        f('reading', 'imp', 'text', T('Kiedy dostałeś/aś odczyt i jaki', 'When you got the reading and which kind'), { ph: T('np. listopad 2026, horoskop urodzeniowy', 'e.g. November 2026, birth chart') })
+      ]},
+      { title: T('Godzina urodzenia', 'Time of birth'), fields: [
+        f('src', 'req', 'radio', T('Skąd jest godzina, którą podałeś/aś?', 'Where is the time you gave from?'), { options: SRC }),
+        f('prec', 'imp', 'radio', T('Jak dokładna jest ta godzina?', 'How exact is that time?'), { options: [T('co do minuty, z dokumentu', 'to the minute, from a document'), T('zaokrąglona do 5–15 minut', 'rounded to 5–15 minutes'), T('pełna lub pół godziny', 'on the hour or half hour'), T('nie wiem', "don't know")] })
+      ]},
+      { title: T('Rodzina', 'Family'), intro: T('Licz rodzeństwo z obojga rodziców; przyrodnie i zmarłe opisz w ostatnim polu.', 'Count siblings with both parents; describe half-siblings and those who died in the last field.'), fields: [
+        f('b_old', 'imp', 'text', T('Starsi bracia — ilu', 'Older brothers — how many')),
+        f('b_young', 'imp', 'text', T('Młodsi bracia — ilu', 'Younger brothers — how many')),
+        f('s_old', 'imp', 'text', T('Starsze siostry — ile', 'Older sisters — how many')),
+        f('s_young', 'imp', 'text', T('Młodsze siostry — ile', 'Younger sisters — how many')),
+        f('sib_other', 'opt', 'text', T('Rodzeństwo przyrodnie lub zmarłe (kto, starsze czy młodsze)', 'Half-siblings or siblings who died (who, older or younger)')),
+        f('father', 'imp', 'radio', T('Ojciec', 'Father'), { options: [T('żyje', 'alive'), T('zmarł', 'died'), T('nie wiem', "don't know")] }),
+        f('father_year', 'opt', 'text', T('Jeśli zmarł — w którym roku', 'If he died — which year')),
+        f('father_work', 'opt', 'text', T('Zawód lub pozycja ojca w kilku słowach', "Father's occupation or position in a few words")),
+        f('mother_year', 'opt', 'text', T('Jeśli matka zmarła — w którym roku', 'If your mother died — which year'))
+      ]},
+      { title: T('Związki i dzieci', 'Relationships and children'), fields: [
+        f('marr', 'imp', 'text', T('Małżeństwa i związki dłuższe niż 3 lata: ile i w jakich latach', 'Marriages and relationships longer than 3 years: how many and which years'), { ph: T('np. 2010–2018, 2020–', 'e.g. 2010–2018, 2020–') }),
+        f('kids', 'imp', 'text', T('Dzieci: ile i rok urodzenia każdego', 'Children: how many and the birth year of each'), { ph: T('np. 2 — 2012, 2016; albo: brak', 'e.g. 2 — 2012, 2016; or: none') })
+      ]},
+      { title: T('Zdrowie', 'Health'), intro: T('Nieobowiązkowe. Wystarczy nazwa i rok, bez szczegółów.', 'Optional. A name and a year are enough, no details.'), fields: [
+        f('chronic', 'opt', 'textarea', T('Choroby przewlekłe: jakie i od kiedy', 'Long-term illnesses: which and since when'), { ph: T('np. wada wzroku od dzieciństwa; astma od 2005', 'e.g. poor eyesight since childhood; asthma since 2005') }),
+        f('acc', 'opt', 'textarea', T('Wypadki, operacje, pobyty w szpitalu — z rokiem', 'Accidents, surgery, hospital stays — with the year'))
+      ]},
+      { title: T('Praca i miejsce', 'Work and place'), fields: [
+        f('work', 'imp', 'radio', T('Jak się utrzymujesz', 'How you make a living'), { options: [T('etat', 'employed'), T('własna działalność', 'self-employed'), T('jedno i drugie', 'both'), T('nie pracuję', 'not working'), T('inaczej', 'other')] }),
+        f('field', 'opt', 'text', T('Zawód lub branża w kilku słowach', 'Occupation or field in a few words')),
+        f('abroad', 'opt', 'text', T('Mieszkanie za granicą: gdzie i w jakich latach', 'Living abroad: where and which years'))
+      ]},
+      { title: T('Zdarzenia z datami', 'Dated events'), fields: [
+        f('events', 'imp', 'textarea', T('Ważne zdarzenia z datami — także te, o których odczyt nie mówił', 'Important dated events — including ones the reading did not mention'), { help: EVENTS_HELP, ph: EVENTS_PH, rows: 8 })
+      ]},
+      { title: T('Odczyt', 'The reading'), fields: [
+        f('checks', 'opt', 'textarea', T('Lista „jak to sprawdzić” z odczytu: numer — zgadza się / nie zgadza się / częściowo', 'The "how to check" list from your reading: number — true / not true / partly'), { ph: T('1 — zgadza się\n2 — nie zgadza się\n3 — częściowo: …', '1 — true\n2 — not true\n3 — partly: …') }),
+        f('consent', 'req', 'radio', T('Czy mogę anonimowo, bez imienia i daty urodzenia, używać tych faktów do sprawdzania trafności metod?', 'May I use these facts anonymously, without your name and birth date, to check how accurate the methods are?'), { options: YESNO })
       ]}
     ]}
   };
